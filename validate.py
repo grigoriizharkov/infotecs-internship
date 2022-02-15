@@ -13,7 +13,7 @@ model.load_model('model.cbm')
 # Загружаем данные для проверки метрик модели сначала в DataFrame, а затем сразу в Pool.
 # Признак, целевая переменная и индикатор текстового признака остаются теми же.
 
-valid = pd.read_csv('val.tsv', sep='\t')
+valid = pd.read_csv('data/val.tsv', sep='\t')
 valid_data = Pool(valid['libs'], valid['is_virus'], text_features=[0])
 
 # Получем предсказание модели на новых валидационных данных.
@@ -22,7 +22,7 @@ valid_prediction = model.predict(valid_data)
 
 # Теперь пишем в файл значения, которые выдает наша модель на требуемых метриках.
 
-with open('validation.txt', 'w') as f:
+with open('results/validation.txt', 'w') as f:
     conf_matrix = confusion_matrix(valid['is_virus'], valid_prediction)
     print("True positive: ", conf_matrix[0][0], file=f)
     print("False positive", conf_matrix[0][1], file=f)
